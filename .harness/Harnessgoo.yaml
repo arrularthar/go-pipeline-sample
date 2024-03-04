@@ -31,7 +31,7 @@ pipeline:
                   name: Run_Unit_Tests
                   identifier: Run_Unit_Tests
                   spec:
-                    connectorRef: account.harnessImage
+                    connectorRef: DockerGoConnector
                     image: golang:1.15
                     shell: Sh
                     command: |-
@@ -49,7 +49,7 @@ pipeline:
                   name: Build
                   identifier: Build
                   spec:
-                    connectorRef: account.harnessImage
+                    connectorRef: DockerGoConnector
                     image: golang:1.15
                     shell: Sh
                     command: |-
@@ -62,7 +62,7 @@ pipeline:
                   name: BuildAndPushToDocker
                   identifier: BuildAndPushToDocker
                   spec:
-                    connectorRef: account.harnessImage
+                    connectorRef: DockerGoConnector
                     repo: arrulas/harness-poc
                     tags:
                       - go1
