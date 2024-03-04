@@ -1,0 +1,68 @@
+pipeline:
+  name: Harness-goo
+  identifier: Harnessgoo
+  projectIdentifier: HarnessgoPOC
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: account.Github_OAuth_1708491840199
+        repoName: arrularthar/go-pipeline-sample
+        build: <+input>
+  stages:
+    - stage:
+        name: Build
+        identifier: Build
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Run_Unit_Tests
+                  identifier: Run_Unit_Tests
+                  spec:
+                    connectorRef: account.harnessImage
+                    image: golang:1.15
+                    shell: Sh
+                    command: |-
+                      set +e
+                                            go get gotest.tools/gotestsum
+                                            gotestsum --format=standard-verbose --junitfile unit-tests.xml
+                                            exit 0
+                    reports:
+                      type: JUnit
+                      spec:
+                        paths:
+                          - "*.xml"
+              - step:
+                  type: Run
+                  name: Build
+                  identifier: Build
+                  spec:
+                    connectorRef: account.harnessImage
+                    image: golang:1.15
+                    shell: Sh
+                    command: |-
+                      set +e
+                                            go get gotest.tools/gotestsum
+                                            CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -tags netgo
+                                            exit 0
+              - step:
+                  type: BuildAndPushDockerRegistry
+                  name: BuildAndPushToDocker
+                  identifier: BuildAndPushToDocker
+                  spec:
+                    connectorRef: account.harnessImage
+                    repo: arrulas/harness-poc
+                    tags:
+                      - go1
