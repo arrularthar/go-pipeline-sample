@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_arrularthar_go_pipeline_sample_1709531109555-pr-trigger-input-set
+  identifier: Build_arrularthar_go_pipeline_sample_1709531109555prtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: HarnessgoPOC
+  pipeline:
+    identifier: Build_arrularthar_go_pipeline_sample_1709531109555
+    properties:
+      ci:
+        codebase:
+          build:
+            type: PR
+            spec:
+              number: <+trigger.prNumber>
