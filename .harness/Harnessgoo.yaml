@@ -65,4 +65,4 @@ pipeline:
                     connectorRef: DockerGoConnector
                     repo: arrulas/harness-poc
                     tags:
-                      - go6
+                      - go7
